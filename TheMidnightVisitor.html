@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Midnight Visitor - StoryHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6d8cc0;
+            --secondary-color: #4a6fa5;
+            --background-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --light-text: #a0a0a0;
+            --border-color: #333;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .reader-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+            border: 1px solid var(--border-color);
+        }
+        
+        .reader-header {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .reader-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .reader-author {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+        
+        .reader-meta {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+        }
+        
+        .part-indicator {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .reader-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+        
+        .reader-content p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .reader-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .reader-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .reader-nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s;
+            background-color: rgba(109, 140, 192, 0.1);
+            border: 1px solid var(--border-color);
+        }
+        
+        .reader-nav a:hover {
+            background-color: rgba(109, 140, 192, 0.2);
+            transform: translateY(-1px);
+        }
+        
+        .disabled {
+            color: var(--border-color) !important;
+            background-color: transparent !important;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        
+        i {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reader-container">
+        <div class="reader-header">
+            <h1 class="reader-title">The Midnight Visitor</h1>
+            <p class="reader-author">By Michael Brown</p>
+            <div class="reader-meta">
+                <span><i class="fas fa-clock"></i> 15 min read</span>
+                <span><i class="fas fa-heart"></i> 342 likes</span>
+            </div>
+            <div class="part-indicator">Part <span id="current-part">1</span> of <span id="total-parts">3</span></div>
+        </div>
+        
+        <div class="reader-content" id="story-content">
+            <!-- Content will be loaded by JavaScript -->
+        </div>
+        
+        <div class="reader-nav">
+            <a href="#" id="prev-part"><i class="fas fa-chevron-left"></i> Previous Part</a>
+            <a href="#" id="next-part">Next Part <i class="fas fa-chevron-right"></i></a>
+        </div>
+    </div>
+
+    <script>
+        // Story parts data
+        const storyParts = [
+            {
+                title: "The Encounter",
+                content: `
+                    <p>The rain fell in sheets as I hurried down the deserted street, my collar turned up against the cold. I hadn't planned to be out this late, but the meeting had run longer than expected.</p>
+                    
+                    <p>That's when I saw him—a shadowy figure standing beneath the flickering streetlamp. He seemed to be waiting for someone. As I approached, he turned slowly to face me, and I caught a glimpse of pale, drawn features.</p>
+                    
+                    <p>"Excuse me," I muttered, quickening my pace. But as I passed, his hand shot out and grabbed my arm with surprising strength.</p>
+                    
+                    <p>"You can see me?" he whispered, his voice hoarse with disbelief.</p>
+                    
+                    <p>I froze. There was something in his eyes—a depth of sorrow that made my breath catch. "Of course I can see you," I replied, trying to keep my voice steady.</p>
+                    
+                    <p>His grip tightened. "No one has been able to see me for fifty years."</p>
+                    
+                    <p>The words hung between us as the rain continued to fall, and I realized with dawning horror that the streetlamp's light cast no shadow from the man before me.</p>
+                `
+            },
+            {
+                title: "The Revelation",
+                content: `
+                    <p>I tried to pull away, but his grasp was like iron. "Please," he begged, his voice cracking. "I need to tell someone what happened that night."</p>
+                    
+                    <p>Against my better judgment, I stopped resisting. The desperation in his voice was too genuine to ignore. "What night?" I asked.</p>
+                    
+                    <p>He looked around nervously, as if expecting someone to appear. "October 12th, 1972. The night I disappeared."</p>
+                    
+                    <p>A chill ran down my spine that had nothing to do with the rain. I knew that date—it was the same night the old mill on the edge of town had burned down, taking its night watchman with it.</p>
+                    
+                    <p>"You're... you're Henry Watkins," I breathed.</p>
+                    
+                    <p>His eyes widened. "You know my name?"</p>
+                    
+                    <p>"There's a plaque at the library," I said. "They thought you died in the fire."</p>
+                    
+                    <p>A bitter smile twisted his lips. "Oh, I died alright. But not in the fire. That was just the cover-up."</p>
+                `
+            },
+            {
+                title: "The Truth",
+                content: `
+                    <p>The street seemed to grow colder as he leaned closer. "I saw something I shouldn't have that night. Something that got me killed. And now I'm stuck here, unable to move on until the truth comes out."</p>
+                    
+                    <p>Thunder rumbled in the distance as I realized with growing certainty that this encounter was no accident. The question was—why me? And did I really want to get involved in a fifty-year-old mystery that had already claimed one life?</p>
+                    
+                    <p>But as I looked into Henry's haunted eyes, I knew the answer. Some stories demand to be told, no matter how much time has passed.</p>
+                    
+                    <p>"Tell me everything," I said, steeling myself for what was to come. "From the beginning."</p>
+                    
+                    <p>Henry nodded, his form flickering slightly like the streetlamp above us. "It started when I saw the mayor that night, with a briefcase full of cash..."</p>
+                    
+                    <p>The rain continued to fall as the ghost began his tale, and I knew my life would never be the same after this midnight confession.</p>
+                `
+            }
+        ];
+
+        // DOM elements
+        const storyContent = document.getElementById('story-content');
+        const currentPartSpan = document.getElementById('current-part');
+        const totalPartsSpan = document.getElementById('total-parts');
+        const prevPartBtn = document.getElementById('prev-part');
+        const nextPartBtn = document.getElementById('next-part');
+
+        // Initialize
+        let currentPart = 0;
+        totalPartsSpan.textContent = storyParts.length;
+
+        // Function to load a story part
+        function loadStoryPart(partIndex) {
+            if (partIndex >= 0 && partIndex < storyParts.length) {
+                currentPart = partIndex;
+                storyContent.innerHTML = `<h2>${storyParts[partIndex].title}</h2>${storyParts[partIndex].content}`;
+                currentPartSpan.textContent = partIndex + 1;
+                
+                // Update navigation buttons
+                prevPartBtn.classList.toggle('disabled', partIndex === 0);
+                nextPartBtn.classList.toggle('disabled', partIndex === storyParts.length - 1);
+            }
+        }
+
+        // Event listeners for navigation
+        prevPartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPart > 0) {
+                loadStoryPart(currentPart - 1);
+            }
+        });
+
+        nextPartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentPart < storyParts.length - 1) {
+                loadStoryPart(currentPart + 1);
+            }
+        });
+
+        // Load the first part initially
+        loadStoryPart(0);
+    </script>
+</body>
+</html>
